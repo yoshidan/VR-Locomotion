@@ -16,8 +16,9 @@ VR Locomotion implementation like a VRChat.
 * Character walks into the point specified by `OVRInput.Button.PrimaryThumbstickUp`.
 * Relase `OVRInput.Button.PrimaryThumbstickUp` then camera warps to character's head position.
 
-## With FinalIK
-* Use `IKPlayerController.cs` instead of `PlayerController`
+## With FinalIK(VRIK)
+* Download [FinalIK](https://assetstore.unity.com/packages/tools/animation/final-ik-14290) .
+* Use `IKPlayerController.cs` instead of `PlayerController` .
 <img src="./image/ikmovie.gif" width="320px">
 
 ![UCL](./image/imageLicenseLogo.png)  
