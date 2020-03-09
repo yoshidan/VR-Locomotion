@@ -21,11 +21,6 @@ namespace App
         {
             _animator = GetComponent<Animator>();
             
-            //自動移動の防止
-            _navMeshAgent = GetComponent<NavMeshAgent>();
-            _navMeshAgent.updatePosition = false;
-            _navMeshAgent.updateRotation = false;
-
             // レイキャストが被って見えなくなってしまうのでignoreレイヤ設定
             gameObject.layer = 2;
             foreach (Transform trans in GetComponentsInChildren<Transform>(true))
@@ -35,6 +30,13 @@ namespace App
             
             var firstPerson = GetComponent<VRMFirstPerson>();
             var characterController = GetComponent<CharacterController>();
+            
+            //自動移動の防止
+            _navMeshAgent = GetComponent<NavMeshAgent>();
+            _navMeshAgent.updatePosition = false;
+            _navMeshAgent.updateRotation = false;
+            _navMeshAgent.radius = characterController.radius;
+            _navMeshAgent.height = characterController.height;
 
             _mover = new Mover(_navMeshAgent, characterController);
             
@@ -63,6 +65,7 @@ namespace App
         
         void FixedUpdate()
         {
+            
             if (!_ready)
             {
                 return;
