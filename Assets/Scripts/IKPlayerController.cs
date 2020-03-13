@@ -1,5 +1,4 @@
-﻿/*
-using RootMotion.FinalIK;
+﻿using RootMotion.FinalIK;
 using UnityEngine;
 
 namespace App
@@ -15,6 +14,7 @@ namespace App
             base.Start();
             
             _vrik = gameObject.AddComponent<VRIK>();
+            _vrik.solver.plantFeet = false;
             _vrik.solver.spine.headTarget = Camera.main.transform;
             _vrik.solver.leftArm.target = GameObject.Find("IKLeftHand").transform;
             _vrik.solver.rightArm.target = GameObject.Find("IKRightHand").transform;
@@ -53,4 +53,3 @@ namespace App
         }
     }
 }
-*/
