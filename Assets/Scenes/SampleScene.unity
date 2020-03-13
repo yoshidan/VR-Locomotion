@@ -879,11 +879,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1441364403}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9a25c3366784a06914289df8c4385e6, type: 3}
+  m_Script: {fileID: 11500000, guid: e09a98a90ac1244e1a483ee700667b32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saverPrefab: {fileID: 4456337060948885636, guid: ca774fa0c4ee348febc068c24b45739d,
-    type: 3}
 --- !u!143 &1441364406
 CharacterController:
   m_ObjectHideFlags: 0
