@@ -30,9 +30,10 @@ namespace App
 
             //トラッキングの準備が整うまでに時間がかかる。
             Debug.Log("Don't move. Adjusting camera position.....");
-           yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.5f);
             
             _cameraRig.UpdatedAnchors += _playerController.UpdatedAnchors;
+            
             var ray = FindObjectOfType<RayController>();
             ray.OnDestinationChanged += _playerController.OnDestinationChanged;
             ray.OnStop += _playerController.OnStop;

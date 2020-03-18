@@ -39,7 +39,8 @@ namespace App
             
                 var hitIndex = -1;
                 var reachable = false;
-                
+               
+                //各線分のstartとend位置をつなぐ
                 for (int i = 0; i < _lineRenderers.Length; i++)
                 {
                     var currentEndPosition = startPosition + GetMovingPosition(velocity, i);

@@ -22,7 +22,7 @@ namespace App
         private Animator _animator;
         private Mover _mover;
         private FPCamera _firstPersonCamera;
-        private CapsuleCollider _rigCollider;
+        private bool _ready = false;
         private Rigidbody _rigid;
         private CharacterController _characterController;
         
@@ -41,8 +41,7 @@ namespace App
 
             _mover = new Mover(_navMeshAgent, _characterController);
 
-            _firstPersonCamera = new FPCamera(Camera.main, GetComponent<VRMFirstPerson>());
-            _firstPersonCamera.ChangeCameraLayer();
+            _firstPersonCamera = new FPCamera(GetComponent<VRMFirstPerson>());
         }
 
         private void IgnoreRayCast()
@@ -57,36 +56,26 @@ namespace App
 
         public void UpdatedAnchors(OVRCameraRig rig)
         {
-            if (_rigCollider == null && rig.centerEyeAnchor.localPosition.y > 0)
+            if (!_ready && rig.centerEyeAnchor.localPosition.y > 0)
             {
-                var currentCameraY = rig.centerEyeAnchor.position.y;
-                var diff = currentCameraY - _firstPersonCamera.GetHeadPosition().y;
-                rig.trackingSpace.localPosition -= new Vector3(0, diff, 0);
-                
-                // モデルの顔位置とカメラが一致するようにトラッキングスペースの高さを調整する。(起動時に座っていても立っていても必ず顔位置にカメラを一致）
-                _rigCollider = rig.GetComponent<CapsuleCollider>();
+                _firstPersonCamera.InitializeTrackingSpace(rig);
+                _firstPersonCamera.ChangeCameraLayer();
+                _ready = true;
                 _warped = true;
-                
-                Debug.Log(rig.transform.position.y.ToString("F3") + "," + currentCameraY.ToString("F3") + "," +
-                          diff.ToString("F3"));
             }
         }
         
         void FixedUpdate()
         {
-         
-            if (_rigCollider == null)
+            if (!_ready)
             {
                 return;
             }
 
             _animator.enabled = true;
 
-            if (_shouldMove)
-            {
-                _mover.Move();
-            }
-            else
+            _mover.Move(_shouldMove);
+            if(!_shouldMove)
             {
                 var state = _animator.GetCurrentAnimatorStateInfo(0);
                 if (state.fullPathHash == _animWait)
@@ -101,11 +90,7 @@ namespace App
                     }
                     else
                     {
-                        // カメラRigのColliderの位置をカメラのローカル位置に持ってくる
-                        // これをやることで6dof移動時にカメラのColliderが移動するため、足場がないところに移動したらRigidbodyと組み合わせて重力で落とすことが可能
-                        var cameraLocal = _firstPersonCamera.camera.transform.localPosition;
-                        _rigCollider.center = new Vector3(cameraLocal.x, 0, cameraLocal.z);
-
+                        _firstPersonCamera.SyncCameraAndRig();
                         SyncRealWorldTransform();
                     }
                 }
@@ -124,13 +109,13 @@ namespace App
             if (_warped)
             {
                 _warped = false;
-                //ワープ後にもう一回ワープしないと正しい位置にならないため補正する。
+                //XXX ワープ後にもう一回ワープしないと正しい位置にならない
                 _firstPersonCamera.Warp();
-                AfterCorrectWarp();
+                AfterWarp();
             }
         }
 
-        protected virtual void AfterCorrectWarp()
+        protected virtual void AfterWarp()
         {
         }
 

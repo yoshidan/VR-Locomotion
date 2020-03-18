@@ -1,5 +1,4 @@
-﻿/*
-using RootMotion.FinalIK;
+﻿using RootMotion.FinalIK;
 using UnityEngine;
 
 namespace App
@@ -47,11 +46,10 @@ namespace App
             return result;
         }
 
-        protected override void AfterCorrectWarp()
+        protected override void AfterWarp()
         {
             _vrik.solver.Reset();
             _vrik.enabled = true;
         }
     }
 }
-*/

@@ -95,51 +95,50 @@ namespace App
             return speed;
         }
 
-        public void Move()
+        public void Move(bool shouldMove)
         {
-            if (!_destinationResolver.IsReady())
-            {
-                return;
-            }
-
-            var currentPosition = _transform.position;
             var move = Vector3.zero;
-            
-            //最終目的地に到達していない場合
-            if (!_destinationResolver.IsReached(currentPosition))
+            if (shouldMove && _destinationResolver.IsReady())
             {
-                var directionToNext = _destinationResolver.GetNextDestination(currentPosition) - currentPosition;
-                var distanceToFinal = _destinationResolver.Distance2D(_destinationResolver.GetFinalDestination(), currentPosition);
-                var forward = _transform.forward;
+                var currentPosition = _transform.position;
 
-                //SignedAngleのAngleは回転がなくても45~-45になったりするため、符号の取得のみに利用する
-                //https://forum.unity.com/threads/is-vector3-signedangle-working-as-intended.694105/
-                var sign = Mathf.Sign(Vector3.SignedAngle(forward, directionToNext, Vector3.up));
-                var angle = Angle2D(forward, directionToNext);
-
-                // 急旋回
-                if (Mathf.Abs(angle) > RotationThreshold)
+                //最終目的地に到達していない場合
+                if (!_destinationResolver.IsReached(currentPosition))
                 {
-                    var rotation = Mathf.Min(BaseRotationSpeed * Time.deltaTime, angle) * sign;
-                    _transform.Rotate(0f, rotation, 0f);
-                    move = Vector3.zero;
-                }
-                else
-                {
-                    // 移動しながら回転する。目的地に近くほど減衰
-                    var rotation = Mathf.Min(angle, distanceToFinal) * sign;
-                    _transform.Rotate(0f, rotation, 0f);
+                    var directionToNext = _destinationResolver.GetNextDestination(currentPosition) - currentPosition;
+                    var distanceToFinal =
+                        _destinationResolver.Distance2D(_destinationResolver.GetFinalDestination(), currentPosition);
+                    var forward = _transform.forward;
 
-                    //移動、目的地に近くほど減衰
-                    var speed = BaseSpeed * Time.deltaTime * Mathf.Min(1, distanceToFinal);
-                    move = _transform.forward * speed;
+                    //SignedAngleのAngleは回転がなくても45~-45になったりするため、符号の取得のみに利用する
+                    //https://forum.unity.com/threads/is-vector3-signedangle-working-as-intended.694105/
+                    var sign = Mathf.Sign(Vector3.SignedAngle(forward, directionToNext, Vector3.up));
+                    var angle = Angle2D(forward, directionToNext);
+
+                    // 急旋回
+                    if (Mathf.Abs(angle) > RotationThreshold)
+                    {
+                        var rotation = Mathf.Min(BaseRotationSpeed * Time.deltaTime, angle) * sign;
+                        _transform.Rotate(0f, rotation, 0f);
+                        move = Vector3.zero;
+                    }
+                    else
+                    {
+                        // 移動しながら回転する。目的地に近くほど減衰
+                        var rotation = Mathf.Min(angle, distanceToFinal) * sign;
+                        _transform.Rotate(0f, rotation, 0f);
+
+                        //移動、目的地に近くほど減衰
+                        var speed = BaseSpeed * Time.deltaTime * Mathf.Min(1, distanceToFinal);
+                        move = _transform.forward * speed;
+                    }
                 }
             }
-            
+
             //Y方向は重力のみで落とす
             move.y = Physics.gravity.y;
-
             _characterController.Move(move);
+            
         }
         
 
