@@ -913,9 +913,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 1441364403}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e09a98a90ac1244e1a483ee700667b32, type: 3}
+  m_Script: {fileID: 11500000, guid: f9a25c3366784a06914289df8c4385e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _shouldMove: 0
+  _shouldWarp: 0
+  _warped: 0
+  _navMeshAgent: {fileID: 0}
+  _animator: {fileID: 0}
+  _ready: 0
+  _rigid: {fileID: 0}
+  _characterController: {fileID: 0}
+  _vrik: {fileID: 0}
+  saverPrefab: {fileID: 4456337060948885636, guid: ca774fa0c4ee348febc068c24b45739d,
+    type: 3}
 --- !u!143 &1441364406
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1027,7 +1038,7 @@ Transform:
   m_GameObject: {fileID: 1537673141}
   m_LocalRotation: {x: 0, y: 0, z: 0.2588191, w: 0.9659258}
   m_LocalPosition: {x: 2.1, y: 0.5, z: 0}
-  m_LocalScale: {x: 1, y: 0.2, z: 0.2}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children: []
   m_Father: {fileID: 1617831147}
   m_RootOrder: 1

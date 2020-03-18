@@ -1,4 +1,5 @@
-﻿using RootMotion.FinalIK;
+﻿/*
+using RootMotion.FinalIK;
 using UnityEngine;
 
 namespace App
@@ -53,3 +54,4 @@ namespace App
         }
     }
 }
+*/
