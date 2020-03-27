@@ -11,8 +11,6 @@ namespace App
     [RequireComponent(typeof(Animator))]
     public class PlayerController : MonoBehaviour
     {
-        private const int IgnoreRayCastLayer = 2;
-
         private readonly int _animWait = Animator.StringToHash("Base Layer.WAIT");
         private bool _shouldMove = false;
         private bool _shouldWarp = false;
@@ -31,27 +29,14 @@ namespace App
             _animator = GetComponent<Animator>();
             _navMeshAgent = GetComponent<NavMeshAgent>();
             _characterController = GetComponent<CharacterController>();
-
-            IgnoreRayCast();
-
+            
             //自動移動の防止
             _navMeshAgent.updatePosition = false;
             _navMeshAgent.updateRotation = false;
-            //Colliderの余白をほぼ皆無にしないとNavMeshと組み合わせた時に浮く
 
             _mover = new Mover(_navMeshAgent, _characterController);
 
             _firstPersonCamera = new FPCamera(GetComponent<VRMFirstPerson>());
-        }
-
-        private void IgnoreRayCast()
-        {
-            // レイキャストが被って見えなくなってしまうのでignoreレイヤ設定
-            gameObject.layer = IgnoreRayCastLayer;
-            foreach (Transform trans in GetComponentsInChildren<Transform>(true))
-            {
-                trans.gameObject.layer = gameObject.layer;
-            }
         }
 
         public void UpdatedAnchors(OVRCameraRig rig)

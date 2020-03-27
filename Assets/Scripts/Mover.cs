@@ -136,7 +136,7 @@ namespace App
             }
 
             //Y方向は重力のみで落とす
-            move.y = Physics.gravity.y;
+            move.y = Physics.gravity.y * Time.deltaTime;
             _characterController.Move(move);
             
         }
