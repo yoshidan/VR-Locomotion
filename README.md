@@ -21,7 +21,7 @@ VR Locomotion implementation like a VRChat.
 
 ## Without FinalIK
 
-Use 'PlayerController.cs' instead of 'IKPlayerController.cs' and delete IKPlayerController.cs if you don't have FinalIK
+Use `PlayerController.cs` instead of `IKPlayerController.cs` and delete `IKPlayerController.cs` if you don't have FinalIK
 
 ![UCL](./image/imageLicenseLogo.png)  
 [ユニティちゃんライセンス条項](http://unity-chan.com/contents/license_jp/)
