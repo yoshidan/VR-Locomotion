@@ -74,7 +74,6 @@ namespace App
 
         private void AdjustTrackingSpace()
         {
-            // リアルで座っていたり立っていたりとアバターの身長と合わないためトラッキングスペースの高さを調節する
             var cameraTransform = _camera.transform;
             var trackingSpace = cameraTransform.parent;
             var cameraLocalPosition = cameraTransform.localPosition.y;
@@ -88,29 +87,28 @@ namespace App
 
         public void Warp()
         {
+            // リアルで座っていたり立っていたりとアバターの身長と合わないためトラッキングスペースの高さを調節する。
+            // VRChatではこのようなことはやっていない。ワープ毎に変更させたくなければこの処理を外す。
             AdjustTrackingSpace();
 
-            //リアル移動時に変化するのはcameraのlocalPositionである。そのため、ワープした時にはcameraが顔位置になるようにCameraRigを動かす必要がある。
+            //リアル移動時に変化するのはcameraのlocalPositionである。
+            //そのため、ワープした時にはcameraが顔位置になるようにCameraRigを動かす必要がある。
             var cameraTransform = _camera.transform;
             var trackingSpaceTransform = cameraTransform.parent;
             var cameraRigTransform = trackingSpaceTransform.parent.transform;
             var rotation = _characterTransform.rotation;
 
-            // オフセットを加算したfirstPersonBone位置
+            // 目線位置の取得
             var targetCameraPosition = GetHeadPosition();
+            // VRChatではワープ時回転同期はしていない。不要なら外す。
             var targetCameraRotation = GetTargetAxis(rotation);
 
-            // 親子差分
+            // 親子差分を計算してカメラが目線位置にくるようにOVRCameraRigの位置を決める
             var worldDiffPosition = cameraTransform.position - cameraRigTransform.position;
             var worldDiffRotation = Quaternion.Inverse(GetTargetAxis(cameraRigTransform.rotation)) *
                                     GetTargetAxis(cameraTransform.rotation);
-
-            //子と親のlocalPositionを変更することなく子の位置がtargetCameraPositionとなるように親の位置を変更する
-            //親にワールド位置を設定してから親子差分を引けば(回転なら逆回転すれば）、子が目的位置になる
             var parentTargetPosition = targetCameraPosition - worldDiffPosition;
-
-//            parentTargetPosition.y = Math.Max(_characterTransform.position.y, parentTargetPosition.y);
-
+            
             cameraRigTransform.position = parentTargetPosition;
             cameraRigTransform.rotation = Quaternion.Inverse(worldDiffRotation) * targetCameraRotation;
         }
