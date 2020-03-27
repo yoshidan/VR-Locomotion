@@ -65,7 +65,7 @@ namespace App
                 var state = _animator.GetCurrentAnimatorStateInfo(0);
                 if (state.fullPathHash == _animWait)
                 {
-                    // アニメーション停止後にワープ
+                    // 止まった時の目線位置にワープさせたいので、アニメーションがWAITに切り替わったタイミングでワープする。
                     _animator.enabled = false;
                     if (_shouldWarp)
                     {
@@ -94,7 +94,7 @@ namespace App
             if (_warped)
             {
                 _warped = false;
-                //XXX ワープ後にもう一回ワープしないと正しい位置にならない
+                //XXX カメラが常時ぶれてるようで補正が必要? ２連続ワープで回避する。
                 _firstPersonCamera.Warp();
                 AfterWarp();
             }

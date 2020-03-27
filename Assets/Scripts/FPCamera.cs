@@ -123,6 +123,7 @@ namespace App
         }
 
 
+        // この処理はFinalIK未使用時にリアル動作の回転を合わせるためのもの。
         public void SyncRealWorldTransform(Animator animator)
         {
             var head = _firstPersonBone;
@@ -131,9 +132,10 @@ namespace App
             var rootRotation = _characterTransform.rotation;
 
             var eulerCamera = cameraAngle.eulerAngles;
+            
             //y軸回転は全体を動かすので個別パースは動かさない
-            //giveupを設けてローカル回転する場合、warp時に回転も同期させる必要があるがVR酔いがきつい。というかうまくいかない。
             var headTarget = Quaternion.Euler(eulerCamera.x, 0, eulerCamera.z);
+            
             //体は頭の20%程度回転
             var spineTarget = Quaternion.Slerp(Quaternion.identity, headTarget, 0.2f);
 
@@ -142,6 +144,7 @@ namespace App
 
             //体全体を滑らかに回転
             var targetAngle = Quaternion.Euler(rootRotation.eulerAngles.x, eulerCamera.y, rootRotation.eulerAngles.z);
+            
             _characterTransform.rotation = targetAngle;
         }
 
