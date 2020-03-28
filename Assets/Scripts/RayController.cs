@@ -20,7 +20,7 @@ namespace App
         
         private Vector3 _velocityRef = Vector3.zero;
 
-        public void Awake()
+        void Awake()
         {
             for (int i = 0; i < _lineRenderers.Length; i++)
             {
@@ -28,7 +28,7 @@ namespace App
             }
         }
         
-        public void FixedUpdate()
+        void FixedUpdate()
         {
             if (OVRInput.Get(OVRInput.Button.PrimaryThumbstickUp))
             {
@@ -77,7 +77,7 @@ namespace App
             }
         }
         
-        public Vector3 GetVelocity(Vector3 direction)
+        Vector3 GetVelocity(Vector3 direction)
         {
             var v = 5;
             var axisV = Vector3.zero;
@@ -103,7 +103,7 @@ namespace App
             return _velocityRef;
         }
 
-        private Vector3 GetMovingPosition(Vector3 velocity, int lineIndex)
+        Vector3 GetMovingPosition(Vector3 velocity, int lineIndex)
         {
             //移動距離を凝縮する
             var t = lineIndex / 30.0f;
@@ -112,7 +112,7 @@ namespace App
             return new Vector3(velocity.x * t,velocity.y * t - (0.5f * 9.8f * t * t) ,velocity.z * t);
         }
 
-        private void DisplayTracing(LineRenderer[] lineRenderers, int hitIndex, bool reachable)
+        void DisplayTracing(LineRenderer[] lineRenderers, int hitIndex, bool reachable)
         {
             for (int i = 0; i < lineRenderers.Length; i++)
             {

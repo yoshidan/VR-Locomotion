@@ -9,9 +9,9 @@ namespace App
 
         public Vector3 debugDestination = Vector3.zero;
 
-        private PlayerController _playerController;
+        PlayerController _playerController;
 
-        private OVRCameraRig _cameraRig;
+        OVRCameraRig _cameraRig;
         
         void Start()
         {

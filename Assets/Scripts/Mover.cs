@@ -1,6 +1,3 @@
-using System;
-using System.Linq;
-using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -25,10 +22,7 @@ namespace App
             {
                 return _agent.destination;
             }
-            else
-            {
-                return corners[corners.Length - 1];
-            }
+            return corners[corners.Length - 1];
         }
         public Vector3 GetNextDestination(Vector3 currentPosition)
         {
@@ -142,7 +136,7 @@ namespace App
         }
         
 
-        private float Angle2D(Vector3 forward, Vector3 target)
+        float Angle2D(Vector3 forward, Vector3 target)
         {
             _ref1.x = forward.x;
             _ref1.y = forward.z;

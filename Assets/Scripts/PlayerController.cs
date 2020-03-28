@@ -89,7 +89,7 @@ namespace App
             _firstPersonCamera.SyncRealWorldTransform(_animator);
         }
 
-        public void LateUpdate()
+        void LateUpdate()
         {
             if (_warped)
             {
@@ -117,7 +117,7 @@ namespace App
             _navMeshAgent.SetDestination(transform.position);
         }
 
-        private void AfterMove()
+        void AfterMove()
         {
             _firstPersonCamera.ChangeCameraLayer();
             var speed = _mover.GetSpeed();

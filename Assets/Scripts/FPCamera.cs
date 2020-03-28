@@ -38,13 +38,13 @@ namespace App
             }
         }
 
-        private void SetFirstPersonOnly()
+        void SetFirstPersonOnly()
         {
             _camera.cullingMask |= 1 << VRMFirstPerson.FIRSTPERSON_ONLY_LAYER;
             _camera.cullingMask &= ~(1 << VRMFirstPerson.THIRDPERSON_ONLY_LAYER);
         }
 
-        private void SetThirdPersonOnly()
+        void SetThirdPersonOnly()
         {
             _camera.cullingMask |= 1 << VRMFirstPerson.THIRDPERSON_ONLY_LAYER;
             _camera.cullingMask &= ~ (1 << VRMFirstPerson.FIRSTPERSON_ONLY_LAYER);
@@ -72,7 +72,7 @@ namespace App
             _rigCollider.center = new Vector3(cameraLocal.x, 0, cameraLocal.z);
         }
 
-        private void AdjustTrackingSpace()
+        void AdjustTrackingSpace()
         {
             var cameraTransform = _camera.transform;
             var trackingSpace = cameraTransform.parent;
@@ -113,7 +113,7 @@ namespace App
             cameraRigTransform.rotation = Quaternion.Inverse(worldDiffRotation) * targetCameraRotation;
         }
 
-        private Quaternion GetTargetAxis(Quaternion rotation)
+        Quaternion GetTargetAxis(Quaternion rotation)
         {
             // Y軸のみ対象とする
             _v3Cache.y = rotation.eulerAngles.y;
@@ -146,7 +146,7 @@ namespace App
             _characterTransform.rotation = targetAngle;
         }
 
-        private Vector3 GetHeadPosition()
+        Vector3 GetHeadPosition()
         {
             return _firstPersonBone.localToWorldMatrix.MultiplyPoint(_headOffset);
         }
